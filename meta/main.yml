@@ -1,7 +1,7 @@
 ---
 
 galaxy_info:
-  role_name: ginhouxnet.pxe_os_images
+  role_name: pxe_os_images
   description: manage os images for pxe deploy
   author: dginhoux
   company: ginhouxnet
