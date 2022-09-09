@@ -7,7 +7,7 @@ This ansible role download needed linux kernel image and initrd used for PXE boo
 Requirements
 ------------
 
-This ansible role will only run on identified OS defined on meta/main.yml
+This role is built to only run on platforms defined in `meta/main.yml`
 
 
 Role Variables
@@ -20,8 +20,7 @@ View defaults/main.yml
 Dependencies
 ------------
 
-
-
+none
 
 Example Playbook
 ----------------
@@ -37,4 +36,4 @@ BSD
 Author Information
 ------------------
 
-Dany GINHOUX
+https://github.com/dginhoux/
