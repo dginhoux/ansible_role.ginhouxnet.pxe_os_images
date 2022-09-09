@@ -1,4 +1,4 @@
-ginhouxnet.pxe_os_images
+Ansible Role : dginhoux.pxe_os_images
 =========
 
 This ansible role download needed linux kernel image and initrd used for PXE boot
