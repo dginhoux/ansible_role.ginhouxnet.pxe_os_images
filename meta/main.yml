@@ -1,5 +1,4 @@
 ---
-
 galaxy_info:
   role_name: pxe_os_images
   description: manage os images for pxe deploy
@@ -26,6 +25,5 @@ galaxy_info:
     - pxe
     - vmlinuz
     - initrd
-
 
 dependencies: []
