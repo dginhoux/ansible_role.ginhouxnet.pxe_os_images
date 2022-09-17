@@ -1,13 +1,13 @@
 ---
 - name: "remove {{ distrib.name }}.{{ version.name }} directory"
-  file:
+  ansible.builtin.file:
     path: "{{ pxe_os_folder }}/{{ distrib.name }}.{{ version.name }}"
     state: absent
   when: version.state == "absent"
 
 
 - name: "create {{ distrib.name }}.{{ version.name }} directory"
-  file:
+  ansible.builtin.file:
     path: "{{ pxe_os_folder }}/{{ distrib.name }}.{{ version.name }}"
     state: directory
     mode: 0777

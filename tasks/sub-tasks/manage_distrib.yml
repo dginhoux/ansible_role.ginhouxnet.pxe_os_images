@@ -1,6 +1,6 @@
 ---
 - name: "manage {{ distrib.name }} versions"
-  include_tasks:
+  ansible.builtin.include_tasks:
     file: tasks/sub-tasks/manage_version.yml
   loop: "{{ distrib.versions | flatten }}"
   loop_control:
