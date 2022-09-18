@@ -1,7 +1,0 @@
----
-- name: manage os images
-  ansible.builtin.include_tasks:
-    file: tasks/sub-tasks/manage_distrib.yml
-  loop: "{{ pxe_os_list }}"
-  loop_control:
-    loop_var: distrib
