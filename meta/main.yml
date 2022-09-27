@@ -1,7 +1,7 @@
 ---
 galaxy_info:
   role_name: pxe_os_images
-  description: manage os images for pxe deploy
+  description: dginhoux.pxe_os_images
   author: Dany GINHOUX
   company: dginhoux
   license: MIT
