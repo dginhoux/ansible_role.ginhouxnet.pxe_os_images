@@ -1,8 +1,8 @@
 ---
 - name: "manage {{ distrib.name }} versions"
-  ansible.builtin.include_tasks:
-    file: tasks/sub-tasks/manage_version.yml
+  when: distrib.versions is iterable
   loop: "{{ distrib.versions | flatten }}"
   loop_control:
     loop_var: version
-  when: distrib.versions is iterable
+  ansible.builtin.include_tasks:
+    file: tasks/sub-tasks/manage_version.yml

@@ -1,21 +1,25 @@
 ---
 - name: "remove {{ distrib.name }}.{{ version.name }} directory"
+  when: version.state == "absent"
   ansible.builtin.file:
     path: "{{ pxe_os_folder }}/{{ distrib.name }}.{{ version.name }}"
     state: absent
-  when: version.state == "absent"
 
 
 - name: "create {{ distrib.name }}.{{ version.name }} directory"
+  when: version.state == "present"
   ansible.builtin.file:
     path: "{{ pxe_os_folder }}/{{ distrib.name }}.{{ version.name }}"
     state: directory
     mode: 0777
     owner: root
     group: root
-  when: version.state == "present"
 
 - name: download os images for pxe boot
+  when: version.state == "present"
+  loop: "{{ version.files | flatten }}"
+  loop_control:
+    loop_var: file
   get_url:
     url: "{{ file.url }}"
     dest: "{{ pxe_os_folder }}/{{ distrib.name }}.{{ version.name }}/{{ file.name }}"
@@ -23,7 +27,3 @@
     owner: root
     group: root
     timeout: 5
-  loop: "{{ version.files | flatten }}"
-  loop_control:
-    loop_var: file
-  when: version.state == "present"
