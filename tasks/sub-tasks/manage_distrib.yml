@@ -1,5 +1,5 @@
 ---
-- name: "manage {{ distrib.name }} versions"
+- name: Manage {{ distrib.name }}
   when: distrib.versions is iterable
   loop: "{{ distrib.versions | flatten }}"
   loop_control:

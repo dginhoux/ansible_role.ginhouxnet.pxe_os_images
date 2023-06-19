@@ -1,5 +1,5 @@
 ---
-- name: manage os images
+- name: Include tasks for manage pxe os
   loop: "{{ pxe_os_list }}"
   loop_control:
     loop_var: distrib

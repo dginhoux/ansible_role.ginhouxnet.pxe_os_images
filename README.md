@@ -65,26 +65,49 @@ git clone https://github.com/dginhoux/ansible_role.pxe_init_syslinux dginhoux.px
 Defaults variables defined in `defaults/main.yml` : 
 
 ```yaml
-os_folder: /srv/tftp/os
-os_list:
-  - { state: absent, distrib: debian, version: stretch, filename: linux, url: "http://ftp.debian.org/debian/dists/stretch/main/installer-amd64/current/images/netboot/debian-installer/amd64/linux" }
-  - { state: absent, distrib: debian, version: stretch, filename: initrd.gz, url: "http://ftp.debian.org/debian/dists/stretch/main/installer-amd64/current/images/netboot/debian-installer/amd64/initrd.gz" }   
-  - { state: present, distrib: debian, version: buster, filename: linux, url: "http://ftp.debian.org/debian/dists/buster/main/installer-amd64/current/images/netboot/debian-installer/amd64/linux" }
-  - { state: present, distrib: debian, version: buster, filename: initrd.gz, url: "http://ftp.debian.org/debian/dists/buster/main/installer-amd64/current/images/netboot/debian-installer/amd64/initrd.gz" }
-  - { state: present, distrib: debian, version: bullseye, filename: linux, url: "http://ftp.debian.org/debian/dists/bullseye/main/installer-amd64/current/images/netboot/debian-installer/amd64/linux" }
-  - { state: present, distrib: debian, version: bullseye, filename: initrd.gz, url: "http://ftp.debian.org/debian/dists/bullseye/main/installer-amd64/current/images/netboot/debian-installer/amd64/initrd.gz" }
-  # - { state: present, distrib: centos, version: 7, filename: vmlinuz, url: "http://mirror.centos.org/centos/7/os/x86_64/isolinux/vmlinuz" }
-  # - { state: present, distrib: centos, version: 7, filename: initrd.img, url: "http://mirror.centos.org/centos/7/os/x86_64/isolinux/initrd.img" }
-  # - { state: present, distrib: centos, version: 8, filename: vmlinuz, url: "http://mirror.centos.org/centos/8/BaseOS/x86_64/os/isolinux/vmlinuz" }
-  # - { state: present, distrib: centos, version: 8, filename: initrd.img, url: "http://mirror.centos.org/centos/8/BaseOS/x86_64/os/isolinux/initrd.img" }
-  - { state: absent, distrib: fedora, version: 32, filename: vmlinuz, url: "https://ftp.lip6.fr/ftp/pub/linux/distributions/fedora/releases/32/Server/x86_64/os/images/pxeboot/vmlinuz" }
-  - { state: absent, distrib: fedora, version: 32, filename: initrd.img, url: "https://ftp.lip6.fr/ftp/pub/linux/distributions/fedora/releases/32/Server/x86_64/os/images/pxeboot/initrd.img" }
-  - { state: present, distrib: fedora, version: 33, filename: vmlinuz, url: "https://ftp.lip6.fr/ftp/pub/linux/distributions/fedora/releases/33/Server/x86_64/os/images/pxeboot/vmlinuz" }
-  - { state: present, distrib: fedora, version: 33, filename: initrd.img, url: "https://ftp.lip6.fr/ftp/pub/linux/distributions/fedora/releases/33/Server/x86_64/os/images/pxeboot/initrd.img" }
-  - { state: present, distrib: fedora, version: 34, filename: vmlinuz, url: "https://ftp.lip6.fr/ftp/pub/linux/distributions/fedora/releases/34/Server/x86_64/os/images/pxeboot/vmlinuz" }
-  - { state: present, distrib: fedora, version: 34, filename: initrd.img, url: "https://ftp.lip6.fr/ftp/pub/linux/distributions/fedora/releases/34/Server/x86_64/os/images/pxeboot/initrd.img" }
-  - { state: present, distrib: fedora, version: 35, filename: vmlinuz, url: "https://ftp.lip6.fr/ftp/pub/linux/distributions/fedora/releases/35/Server/x86_64/os/images/pxeboot/vmlinuz" }
-  - { state: present, distrib: fedora, version: 35, filename: initrd.img, url: "https://ftp.lip6.fr/ftp/pub/linux/distributions/fedora/releases/35/Server/x86_64/os/images/pxeboot/initrd.img" }
+---
+pxe_os_folder: /srv/tftp/os
+
+pxe_os_list:
+  - name: "Fedora"
+    versions:
+      - name: 37
+        state: absent
+        files:
+          - name: vmlinuz
+            url: https://ftp.lip6.fr/ftp/pub/linux/distributions/fedora/releases/37/Server/x86_64/os/images/pxeboot/vmlinuz
+          - name: initrd.img
+            url: https://ftp.lip6.fr/ftp/pub/linux/distributions/fedora/releases/37/Server/x86_64/os/images/pxeboot/initrd.img
+      - name: 38
+        state: present
+        files:
+          - name: vmlinuz
+            url: https://ftp.lip6.fr/ftp/pub/linux/distributions/fedora/releases/38/Server/x86_64/os/images/pxeboot/vmlinuz
+          - name: initrd.img
+            url: https://ftp.lip6.fr/ftp/pub/linux/distributions/fedora/releases/38/Server/x86_64/os/images/pxeboot/initrd.img
+  - name: "Debian"
+    versions:
+      - name: Buster
+        state: absent
+        files:
+          - name: linux
+            url: http://ftp.debian.org/debian/dists/buster/main/installer-amd64/current/images/netboot/debian-installer/amd64/linux
+          - name: initrd.gz
+            url: http://ftp.debian.org/debian/dists/buster/main/installer-amd64/current/images/netboot/debian-installer/amd64/initrd.gz
+      - name: Bullseye
+        state: present
+        files:
+          - name: linux
+            url: http://ftp.debian.org/debian/dists/bullseye/main/installer-amd64/current/images/netboot/debian-installer/amd64/linux
+          - name: initrd.gz
+            url: http://ftp.debian.org/debian/dists/bullseye/main/installer-amd64/current/images/netboot/debian-installer/amd64/initrd.gz
+      - name: Bookworm
+        state: present
+        files:
+          - name: linux
+            url: http://ftp.debian.org/debian/dists/bookworm/main/installer-amd64/current/images/netboot/debian-installer/amd64/linux
+          - name: initrd.gz
+            url: http://ftp.debian.org/debian/dists/bookworm/main/installer-amd64/current/images/netboot/debian-installer/amd64/initrd.gz
 ```
 
 #### DEFAULT OS SPECIFIC VARIABLES
