@@ -3,29 +3,55 @@
   when:
     - version.state == "absent"
   ansible.builtin.file:
-    path: "{{ pxe_os_folder }}/{{ distrib.name }}.{{ version.name }}"
+    path: "{{ pxe_os_images_folder }}/{{ distrib.name }}.{{ version.name }}"
     state: absent
 
-- name: Create directory {{ distrib.name }}.{{ version.name }}
-  when:
-    - version.state == "present"
-  ansible.builtin.file:
-    path: "{{ pxe_os_folder }}/{{ distrib.name }}.{{ version.name }}"
-    state: directory
-    mode: "0777"
-    owner: root
-    group: root
 
-- name: Download files for pxe boot {{ distrib.name }}.{{ version.name }}
+- name: Tasks for {{ distrib.name }}.{{ version.name }}
   when:
     - version.state == "present"
-  loop: "{{ version.files | flatten }}"
-  loop_control:
-    loop_var: file
-  get_url:
-    url: "{{ file.url }}"
-    dest: "{{ pxe_os_folder }}/{{ distrib.name }}.{{ version.name }}/{{ file.name }}"
-    mode: "0777"
-    owner: root
-    group: root
-    timeout: 5
+  block:
+    - name: Create directory {{ distrib.name }}.{{ version.name }}
+      ansible.builtin.file:
+        path: "{{ pxe_os_images_folder }}/{{ distrib.name }}.{{ version.name }}"
+        state: directory
+        mode: "0755"
+        owner: root
+        group: root
+
+    - name: Download files for {{ distrib.name }}.{{ version.name }}
+      ignore_errors: true
+      when:
+        - file.url is defined
+        - file.url != ""
+        - file.path is not defined
+      loop: "{{ version.files | flatten }}"
+      loop_control:
+        loop_var: file
+        label: "file: {{ file.name }}"
+      get_url:
+        url: "{{ file.url }}"
+        dest: "{{ pxe_os_images_folder }}/{{ distrib.name }}.{{ version.name }}/{{ file.name }}"
+        mode: "0755"
+        owner: root
+        group: root
+        timeout: 5
+
+    - name: Copy files for {{ distrib.name }}.{{ version.name }}
+      ignore_errors: true
+      when:
+        - file.path is defined
+        - file.path != ""
+        - file.url is not defined
+      loop: "{{ version.files | flatten }}"
+      loop_control:
+        loop_var: file
+        label: "file: {{ file.name }}"
+      ansible.builtin.copy:
+        src: "{{ file.path }}"
+        dest: "{{ pxe_os_images_folder }}/{{ distrib.name }}.{{ version.name }}/{{ file.name }}"
+        mode: "0755"
+        owner: root
+        group: root
+        remote_src: false
+        # timeout: 5

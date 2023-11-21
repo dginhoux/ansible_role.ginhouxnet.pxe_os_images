@@ -67,10 +67,15 @@ Defaults variables defined in `defaults/main.yml` :
 
 ```yaml
 ---
-pxe_os_folder: /srv/tftp/os
+---
+pxe_os_images_action: generate
+# pxe_os_images_action: cleanup
 
-pxe_os_list:
-  - name: "Fedora"
+pxe_os_images_folder: /srv/tftp/os
+
+pxe_os_images_list:
+  - name: Fedora
+    state: present
     versions:
       - name: 37
         state: absent
@@ -86,7 +91,16 @@ pxe_os_list:
             url: https://ftp.lip6.fr/ftp/pub/linux/distributions/fedora/releases/38/Server/x86_64/os/images/pxeboot/vmlinuz
           - name: initrd.img
             url: https://ftp.lip6.fr/ftp/pub/linux/distributions/fedora/releases/38/Server/x86_64/os/images/pxeboot/initrd.img
-  - name: "Debian"
+      - name: 39
+        state: present
+        files:
+          - name: vmlinuz
+            url: https://ftp.lip6.fr/ftp/pub/linux/distributions/fedora/releases/39/Server/x86_64/os/images/pxeboot/vmlinuz
+          - name: initrd.img
+            url: https://ftp.lip6.fr/ftp/pub/linux/distributions/fedora/releases/39/Server/x86_64/os/images/pxeboot/initrd.img
+
+  - name: Debian
+    state: present
     versions:
       - name: Buster
         state: absent
@@ -109,6 +123,33 @@ pxe_os_list:
             url: http://ftp.debian.org/debian/dists/bookworm/main/installer-amd64/current/images/netboot/debian-installer/amd64/linux
           - name: initrd.gz
             url: http://ftp.debian.org/debian/dists/bookworm/main/installer-amd64/current/images/netboot/debian-installer/amd64/initrd.gz
+
+  - name: clonezilla
+    state: present
+    versions:
+      - name: any
+        state: present
+        files:
+          - name: filesystem.squashfs
+            path: files/pxe/os/clonezilla.any/filesystem.squashfs
+          - name: initrd.img
+            path: files/pxe/os/clonezilla.any/initrd.img
+          - name: vmlinuz
+            path: files/pxe/os/clonezilla.any/vmlinuz
+
+  - name: gparted
+    state: present
+    versions:
+      - name: any
+        state: present
+        files:
+          - name: filesystem.squashfs
+            path: files/pxe/os/gparted.any/filesystem.squashfs
+          - name: initrd.img
+            path: files/pxe/os/gparted.any/initrd.img
+          - name: vmlinuz
+            path: files/pxe/os/gparted.any/vmlinuz
+
 ```
 
 #### DEFAULT OS SPECIFIC VARIABLES

@@ -1,7 +1,35 @@
 ---
-- name: Include tasks for manage pxe os
-  loop: "{{ pxe_os_list }}"
+
+- name: Generate os images
+  when: pxe_os_images_action == "generate"
+  loop: "{{ pxe_os_images_list }}"
   loop_control:
     loop_var: distrib
+    label: "distrib: {{ distrib.name }}"
   ansible.builtin.include_tasks:
     file: tasks/sub-tasks/manage_distrib.yml
+
+
+- name: Cleanup os images
+  when:
+    - pxe_os_images_action == "cleanup"
+  block:
+    - name: Identify old os images for cleanup
+      register: os_images_files_to_delete
+      ansible.builtin.find:
+        paths: "{{ pxe_os_images_folder }}"
+        patterns: "*"
+        recurse: true
+        file_type: any
+
+    - name: Old os images cleanup
+      when:
+        - os_images_files_to_delete.files is defined
+        - os_images_files_to_delete.files is iterable
+      loop: "{{ os_images_files_to_delete.files | flatten }}"
+      loop_control:
+        loop_var: file
+        label: "file: {{ file.path }}"
+      ansible.builtin.file:
+        path: "{{ file.path }}"
+        state: absent

@@ -1,8 +1,20 @@
 ---
 - name: Manage {{ distrib.name }}
-  when: distrib.versions is iterable
+  when:
+    - distrib.versions is defined
+    - distrib.versions is iterable
+    - distrib.state == "present"
   loop: "{{ distrib.versions | flatten }}"
   loop_control:
     loop_var: version
+    label: "version: {{ version.name }}"
   ansible.builtin.include_tasks:
     file: tasks/sub-tasks/manage_version.yml
+
+
+- name: Remove {{ distrib.name }}
+  when:
+    - distrib.state == "absent"
+  ansible.builtin.file:
+    path: "{{ pxe_os_images_folder }}/{{ distrib.name }}"
+    state: absent
