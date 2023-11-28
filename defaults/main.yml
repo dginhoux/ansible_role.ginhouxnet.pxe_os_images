@@ -5,24 +5,24 @@ pxe_os_images_action: generate
 pxe_os_images_folder: /srv/tftp/os
 
 pxe_os_images_list:
-  - name: Fedora
+  - name: fedora
     state: present
     versions:
-      - name: 37
+      - name: 37.x86_64
         state: absent
         files:
           - name: vmlinuz
             url: https://ftp.lip6.fr/ftp/pub/linux/distributions/fedora/releases/37/Server/x86_64/os/images/pxeboot/vmlinuz
           - name: initrd.img
             url: https://ftp.lip6.fr/ftp/pub/linux/distributions/fedora/releases/37/Server/x86_64/os/images/pxeboot/initrd.img
-      - name: 38
+      - name: 38.x86_64
         state: present
         files:
           - name: vmlinuz
             url: https://ftp.lip6.fr/ftp/pub/linux/distributions/fedora/releases/38/Server/x86_64/os/images/pxeboot/vmlinuz
           - name: initrd.img
             url: https://ftp.lip6.fr/ftp/pub/linux/distributions/fedora/releases/38/Server/x86_64/os/images/pxeboot/initrd.img
-      - name: 39
+      - name: 39.x86_64
         state: present
         files:
           - name: vmlinuz
@@ -30,24 +30,24 @@ pxe_os_images_list:
           - name: initrd.img
             url: https://ftp.lip6.fr/ftp/pub/linux/distributions/fedora/releases/39/Server/x86_64/os/images/pxeboot/initrd.img
 
-  - name: Debian
+  - name: debian
     state: present
     versions:
-      - name: Buster
+      - name: buster.x86_64
         state: absent
         files:
           - name: linux
             url: http://ftp.debian.org/debian/dists/buster/main/installer-amd64/current/images/netboot/debian-installer/amd64/linux
           - name: initrd.gz
             url: http://ftp.debian.org/debian/dists/buster/main/installer-amd64/current/images/netboot/debian-installer/amd64/initrd.gz
-      - name: Bullseye
+      - name: bullseye.x86_64
         state: present
         files:
           - name: linux
             url: http://ftp.debian.org/debian/dists/bullseye/main/installer-amd64/current/images/netboot/debian-installer/amd64/linux
           - name: initrd.gz
             url: http://ftp.debian.org/debian/dists/bullseye/main/installer-amd64/current/images/netboot/debian-installer/amd64/initrd.gz
-      - name: Bookworm
+      - name: bookworm.x86_64
         state: present
         files:
           - name: linux
@@ -58,25 +58,25 @@ pxe_os_images_list:
   - name: clonezilla
     state: present
     versions:
-      - name: any
+      - name: any.x86_64
         state: present
         files:
           - name: filesystem.squashfs
-            path: files/pxe/os/clonezilla.any/filesystem.squashfs
+            path: files/pxe/os/clonezilla.any.x86_64/filesystem.squashfs
           - name: initrd.img
-            path: files/pxe/os/clonezilla.any/initrd.img
+            path: files/pxe/os/clonezilla.any.x86_64/initrd.img
           - name: vmlinuz
-            path: files/pxe/os/clonezilla.any/vmlinuz
+            path: files/pxe/os/clonezilla.any.x86_64/vmlinuz
 
   - name: gparted
     state: present
     versions:
-      - name: any
+      - name: any.x86_64
         state: present
         files:
           - name: filesystem.squashfs
-            path: files/pxe/os/gparted.any/filesystem.squashfs
+            path: files/pxe/os/gparted.any.x86_64/filesystem.squashfs
           - name: initrd.img
-            path: files/pxe/os/gparted.any/initrd.img
+            path: files/pxe/os/gparted.any.x86_64/initrd.img
           - name: vmlinuz
-            path: files/pxe/os/gparted.any/vmlinuz
+            path: files/pxe/os/gparted.any.x86_64/vmlinuz
