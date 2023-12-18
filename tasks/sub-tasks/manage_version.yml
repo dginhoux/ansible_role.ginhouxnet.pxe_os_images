@@ -29,7 +29,7 @@
       loop_control:
         loop_var: file
         label: "file: {{ file.name }}"
-      get_url:
+      ansible.builtin.get_url:
         url: "{{ file.url }}"
         dest: "{{ pxe_os_images_folder }}/{{ distrib.name }}.{{ version.name }}/{{ file.name }}"
         mode: "0755"
